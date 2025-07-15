@@ -17,7 +17,7 @@ const haushaltsbuch ={
     },
 
     eintraege_sortieren(){
-        this.eintrag.sort(function(eintrag_a, eintrag_b){
+        this.eintraege.sort(function(eintrag_a, eintrag_b){
             if (eintrag_a.get("datum") > eintrag_b.get("datum")){
                 return -1;
             } else if(eintrag_a.get("datum") < eintrag_b.get("datum")){
@@ -64,10 +64,10 @@ const haushaltsbuch ={
     },
 
     gesamtbilanz_ausgeben(){
-        console.log(`Einnahmen: ${this.gesamtbilanz.einahmen} cent\n`
-            + `Ausgaben: ${this.gesamtbilanz.ausgaben} cent\n`
-            + `Bilanz: ${this.gesamtbilanz.bilanz >=0} cent\n`
-            + `Bilanz ist postiv: ${this.gesamtbilanz.bilanz >=0}`
+        console.log(`Einnahmen: ${this.gesamtbilanz.get("einahmen")} cent\n`
+            + `Ausgaben: ${this.gesamtbilanz.get("ausgaben")} cent\n`
+            + `Bilanz: ${this.gesamtbilanz.get("bilanz >=0")} cent\n`
+            + `Bilanz ist postiv: ${this.gesamtbilanz.get("bilanz >=0")}`
 );
 
     },
