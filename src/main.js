@@ -13,6 +13,7 @@ const haushaltsbuch ={
         neuer_eintrag.set("typ",prompt("Typ:Einahme/Ausgabe:"));
         neuer_eintrag.set("betrag",prompt("Betrag(in Cent):"));
         neuer_eintrag.set("datum", new Date(prompt("Datum (jjjj-mm-tt):") +" 00:00:00"));
+        neuer_eintrag.set("timestamp", Date.now());
         this.eintraege.push(neuer_eintrag);
     },
 
