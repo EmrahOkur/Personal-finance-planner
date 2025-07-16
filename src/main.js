@@ -10,9 +10,9 @@ const haushaltsbuch ={
     eintrag_erfassen (){
         let neuer_eintrag= new Map();
         neuer_eintrag.set("titel", prompt("Titel:"));
-        neuer_eintrag.set("typ",prompt("Title:"));
+        neuer_eintrag.set("typ",prompt("Typ:Einahme/Ausgabe:"));
         neuer_eintrag.set("betrag",prompt("Betrag(in Cent):"));
-        neuer_eintrag.set("datum", new Date(prompt("Datum (jjjj-mm-tt):")));
+        neuer_eintrag.set("datum", new Date(prompt("Datum (jjjj-mm-tt):") +" 00:00:00"));
         this.eintraege.push(neuer_eintrag);
     },
 
@@ -35,7 +35,11 @@ const haushaltsbuch ={
           console.log(`Titel: ${eintrag.get("titel")}\n`
             + `Typ: ${eintrag.get("typ")}\n`
             + `Betrag: ${eintrag.get("betrag")} cent\n`
-            + `Datum: ${eintrag.get("datum")}`
+            + `Datum: ${eintrag.get("datum").toLocaleDateString("de-DE", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit"
+            })}`
         );
     });
       
