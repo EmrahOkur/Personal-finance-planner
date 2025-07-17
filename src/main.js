@@ -18,8 +18,23 @@ const haushaltsbuch ={
     },
 
     betrag_verarbeiten(betrag){
-        return parseFloat(betrag.replace(",", "."))*100;
+        if(this.betrag_validieren(betrag)) {
+             return parseFloat(betrag.replace(",", "."))*100;
+        } else {
+            console.log(`Ungültiger Betrag: ${betrag} €`)
+            return false
+        }
+       
 
+    },
+
+    betrag_validieren(betrag){
+        if(betrag.match(/^\d+(?:(?:,|\.)d\d?)$/) !== null){
+            return true;
+
+        } else{
+            return false;
+        }
     },
 
     eintraege_sortieren(){
