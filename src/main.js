@@ -106,7 +106,7 @@ const haushaltsbuch ={
         });
     },
 
-   eintraege_ausgeben (){
+   /*eintraege_ausgeben (){
     console.clear();
     this.eintraege.forEach(function(eintrag) {
           console.log(`Titel: ${eintrag.get("titel")}\n`
@@ -120,7 +120,52 @@ const haushaltsbuch ={
         );
     });
       
+    },*/
+
+    //  <ul>
+    //             <li class="ausgabe" data-timestamp="12132424">
+    //                 <span class="datum">03.02.2020</span>
+    //                 <span class="titel">Miete</span>
+    //                 <span class="betrag">545,00 €</span>
+    //                 <button class="entfernen-button"><i class="fas fa-trash"></i></button>
+    //             </li>
+    //             <li class="einnahme" data-timestamp="12132424">
+    //                 <span class="datum">01.02.2020</span>
+    //                 <span class="titel">Gehalt</span>
+    //                 <span class="betrag">2064,37 €</span>
+    //                 <button class="entfernen-button"><i class="fas fa-trash"></i></button>
+    //             </li>
+    //         </ul>
+
+
+     eintraege_anzeigen(){
+       document.querySelectorAll(".monatsliste ul").forEach(function(eintragsliste){
+            eintragsliste.remove();
+        });
+
+        let eintragsliste=document.createElement("ul");
+        for (let eintrag of this.eintraege){
+            eintragsliste.insertAdjacentElement("beforeend", this.html_eintrag_generieren(eintrag))
+        }
+        document.querySelector(".monatsliste").insertAdjacentElement("afterbegin", eintragsliste);
     },
+
+   html_eintrag_generieren(eintrag){
+        let listepunkt=document.createElement("li");
+        if(eintrag.get("typ")=== "einnahme"){
+            listepunkt.setAttribute("class", "einnahme");
+        }else if(eintrag.get ("typ")=== "ausgabe"){
+            listepunkt.setAttribute("class", "ausgabe");
+        }
+        listepunkt.setAttribute("data-timestamp", eintrag.get("timestamp"));
+
+        let datum =document.createElement("span");
+        datum.setAttribute("class", "datum");
+
+        
+   },
+
+   
 
     gesamtbilanz_erstellen() {
         let neue_gesamtbilanz = new Map() 
