@@ -161,7 +161,23 @@ const haushaltsbuch ={
 
         let datum =document.createElement("span");
         datum.setAttribute("class", "datum");
+        datum.textContent=eintrag.get("datum").tolocalDateString("de-DE", {
+            year:"numeric",
+            month:"2-digit",
+            day:"2-digit"
+        });
+        listepunkt.insertAdjacentElement("afterbegin",datum);
 
+        let titel=document.createElement("span");
+        titel.setAttribute("class", "titel");
+        titel.textContent=eintrag.get("titel");
+        datum.insertAdjacentElement("afterend", titel);
+
+
+        let betrag=document.createElement("span");
+        betrag.setAttribute("class", "betrag");
+        betrag.textContent=`${(eintrag.get("betrag") /100).toFixed(2).replace(/\./, ",")} €`;
+        titel.insertAdjacentElement("afterend", betrag);
         
    },
 
