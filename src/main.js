@@ -1,5 +1,7 @@
 "use strict";
 
+
+
 const haushaltsbuch ={
     
     gesamtbilanz: new Map(),
@@ -106,21 +108,20 @@ const haushaltsbuch ={
         });
     },
 
-   /*eintraege_ausgeben (){
-    console.clear();
-    this.eintraege.forEach(function(eintrag) {
+eintraege_ausgeben (){
+   console.clear();
+     this.eintraege.forEach(function(eintrag) {
           console.log(`Titel: ${eintrag.get("titel")}\n`
-            + `Typ: ${eintrag.get("typ")}\n`
+             + `Typ: ${eintrag.get("typ")}\n`
             + `Betrag: ${(eintrag.get("betrag") / 100).toFixed(2)} €\n`
             + `Datum: ${eintrag.get("datum").toLocaleDateString("de-DE", {
                 year: "numeric",
                 month: "2-digit",
-                day: "2-digit"
-            })}`
+                day: "2-digit"             })}`
         );
     });
       
-    },*/
+    },
 
     //  <ul>
     //             <li class="ausgabe" data-timestamp="12132424">
@@ -150,36 +151,54 @@ const haushaltsbuch ={
         document.querySelector(".monatsliste").insertAdjacentElement("afterbegin", eintragsliste);
     },
 
-   html_eintrag_generieren(eintrag){
-        let listepunkt=document.createElement("li");
-        if(eintrag.get("typ")=== "einnahme"){
-            listepunkt.setAttribute("class", "einnahme");
-        }else if(eintrag.get ("typ")=== "ausgabe"){
-            listepunkt.setAttribute("class", "ausgabe");
-        }
-        listepunkt.setAttribute("data-timestamp", eintrag.get("timestamp"));
+  html_eintrag_generieren(eintrag) {
+    let listepunkt = document.createElement("li");
 
-        let datum =document.createElement("span");
-        datum.setAttribute("class", "datum");
-        datum.textContent=eintrag.get("datum").tolocalDateString("de-DE", {
-            year:"numeric",
-            month:"2-digit",
-            day:"2-digit"
-        });
-        listepunkt.insertAdjacentElement("afterbegin",datum);
+    // Klasse setzen je nach Typ
+    if (eintrag.get("typ") === "einnahme") {
+        listepunkt.classList.add("einnahme");
+    } else if (eintrag.get("typ") === "ausgabe") {
+        listepunkt.classList.add("ausgabe");
+    }
+    listepunkt.dataset.timestamp = eintrag.get("timestamp");
 
-        let titel=document.createElement("span");
-        titel.setAttribute("class", "titel");
-        titel.textContent=eintrag.get("titel");
-        datum.insertAdjacentElement("afterend", titel);
+    // Datum
+    let datum = document.createElement("span");
+    datum.className = "datum";
+    datum.textContent = eintrag.get("datum").toLocaleDateString("de-DE", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+    });
 
+    // Titel
+    let titel = document.createElement("span");
+    titel.className = "titel";
+    titel.textContent = eintrag.get("titel");
 
-        let betrag=document.createElement("span");
-        betrag.setAttribute("class", "betrag");
-        betrag.textContent=`${(eintrag.get("betrag") /100).toFixed(2).replace(/\./, ",")} €`;
-        titel.insertAdjacentElement("afterend", betrag);
-        
-   },
+    // Betrag
+    let betrag = document.createElement("span");
+    betrag.className = "betrag";
+    betrag.textContent = `${(eintrag.get("betrag") / 100).toFixed(2).replace(".", ",")} €`;
+
+    // Entfernen-Button
+    let button = document.createElement("button");
+    button.className = "entfernen-button";
+
+    let icon = document.createElement("i");
+    icon.className = "fas fa-trash";
+
+    button.appendChild(icon);
+
+    // Alles korrekt ins <li> einfügen
+    listepunkt.appendChild(datum);
+    listepunkt.appendChild(titel);
+    listepunkt.appendChild(betrag);
+    listepunkt.appendChild(button);
+
+    return listepunkt;
+},
+
 
    
 
@@ -222,7 +241,8 @@ const haushaltsbuch ={
             this.eintraege_sortieren();
             this.eintraege_ausgeben();
             this.gesamtbilanz_erstellen();
-            this.gesamtbilanz_ausgeben();
+            this.eintraege_anzeigen();
+            //this.gesamtbilanz_ausgeben();
             } else {
                 this.fehler= [];
             }
