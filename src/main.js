@@ -139,6 +139,20 @@ eintraege_ausgeben (){
     //         </ul>
 
 
+    // <!-- <aside id="gesamtbilanz">
+    //     <h1>Gesamtbilanz</h1>
+    //     <div class="gesamtbilanz-zeile einnahmen"><span>Einnahmen:</span><span>4228,74€</span></div>
+    //     <div class="gesamtbilanz-zeile ausgaben"><span>Ausgaben:</span><span>2988,88€</span></div>
+    //     <div class="gesamtbilanz-zeile bilanz"><span>Bilanz:</span><span class="positiv">1239,86€</span></div>
+    // </aside> -->
+
+    gesamtbilanz_anzeigen(){
+        document.querySelectorAll("#gesamtbilanz").forEach(function(gesamtbilanz){
+            gesamtbilanz.remove();
+        });
+        document.querySelector("body").insertAdjacentElement("beforeend", this.html_eintrag_generieren());
+    },
+
      eintraege_anzeigen(){
        document.querySelectorAll(".monatsliste ul").forEach(function(eintragsliste){
             eintragsliste.remove();
@@ -224,14 +238,14 @@ eintraege_ausgeben (){
        this.gesamtbilanz = neue_gesamtbilanz;
     },
 
-   gesamtbilanz_ausgeben() {
-    console.log(
-        `Einnahmen: ${(this.gesamtbilanz.get("einnahmen") / 100).toFixed(2)} €\n` +
-        `Ausgaben: ${(this.gesamtbilanz.get("ausgaben") / 100).toFixed(2)} €\n` +
-        `Bilanz: ${(this.gesamtbilanz.get("bilanz") / 100).toFixed(2)} €\n` +
-        `Bilanz ist positiv: ${(this.gesamtbilanz.get("bilanz") / 100) >= 0}`
-    );
-},
+//    gesamtbilanz_ausgeben() {
+//     console.log(
+//         `Einnahmen: ${(this.gesamtbilanz.get("einnahmen") / 100).toFixed(2)} €\n` +
+//         `Ausgaben: ${(this.gesamtbilanz.get("ausgaben") / 100).toFixed(2)} €\n` +
+//         `Bilanz: ${(this.gesamtbilanz.get("bilanz") / 100).toFixed(2)} €\n` +
+//         `Bilanz ist positiv: ${(this.gesamtbilanz.get("bilanz") / 100) >= 0}`
+//     );
+// },
 
     eintraege_hinzufuegen(){
         let weiterer_eintrag = true;
