@@ -123,21 +123,7 @@ eintraege_ausgeben (){
       
     },
 
-    //  <ul>
-    //             <li class="ausgabe" data-timestamp="12132424">
-    //                 <span class="datum">03.02.2020</span>
-    //                 <span class="titel">Miete</span>
-    //                 <span class="betrag">545,00 €</span>
-    //                 <button class="entfernen-button"><i class="fas fa-trash"></i></button>
-    //             </li>
-    //             <li class="einnahme" data-timestamp="12132424">
-    //                 <span class="datum">01.02.2020</span>
-    //                 <span class="titel">Gehalt</span>
-    //                 <span class="betrag">2064,37 €</span>
-    //                 <button class="entfernen-button"><i class="fas fa-trash"></i></button>
-    //             </li>
-    //         </ul>
-
+  
 
     // <!-- <aside id="gesamtbilanz">
     //     <h1>Gesamtbilanz</h1>
@@ -146,11 +132,64 @@ eintraege_ausgeben (){
     //     <div class="gesamtbilanz-zeile bilanz"><span>Bilanz:</span><span class="positiv">1239,86€</span></div>
     // </aside> -->
 
+
+    html_gesamtbilanz_generieren(){
+
+        let gesamtbilanz=document.createElement("aside");
+        gesamtbilanz.setAttribute("id", "gesamtbilanz");
+
+        let ueberschrift=document.createElement("h1");
+        ueberschrift.textContent="Gesamtbilanz";
+        gesamtbilanz.insertAdjacentElement("afterbegin", ueberschrift);
+
+
+        let einnahmen_zeile=document.createElement("div");
+        einnahmen_zeile.setAttribute("class", "gesamtbilanz-zeile einnahmen");
+        let einnahmen_titel=document.createElement("span");
+        einnahmen_titel.textContent="Einnahmen:";
+        einnahmen_zeile.insertAdjacentElement("afterbegin", einnahmen_titel);
+        let einnahmen_betrag=document.createElement("span");
+        einnahmen_betrag.textContent=`${(this.gesamtbilanz.get("einnahmen") / 100).toFixed(2).replace(".", ",")} €`;
+        einnahmen_zeile.insertAdjacentElement("beforeend", einnahmen_betrag);
+        gesamtbilanz.insertAdjacentElement("beforeend", einnahmen_zeile);
+
+        let ausgaben_zeile=document.createElement("div");
+        ausgaben_zeile.setAttribute("class", "gesamtbilanz-zeile ausgaben");
+        let ausgaben_titel=document.createElement("span");
+        ausgaben_titel.textContent="Ausgaben:";
+        ausgaben_zeile.insertAdjacentElement("afterbegin", ausgaben_titel);
+        let ausgaben_betrag=document.createElement("span");
+        ausgaben_betrag.textContent=`${(this.gesamtbilanz.get("ausgaben") / 100).toFixed(2).replace(".", ",")} €`;
+        ausgaben_zeile.insertAdjacentElement("beforeend", ausgaben_betrag);
+        gesamtbilanz.insertAdjacentElement("beforeend", ausgaben_zeile);
+
+        let bilanz_zeile=document.createElement("div");
+        bilanz_zeile.setAttribute("class", "gesamtbilanz-zeile bilanz");
+        let bilanz_titel=document.createElement("span");
+        bilanz_titel.textContent="Bilanz:";
+        bilanz_zeile.insertAdjacentElement("afterbegin", bilanz_titel);
+        let bilanz_betrag=document.createElement("span");
+        if(this.gesamtbilanz.get("bilanz")>=0){
+            bilanz_betrag.setAttribute("class", "positiv");
+
+        } else if(this.gesamtbilanz.get("bilanz")<0){
+            bilanz_betrag.setAttribute("class", "negativ");
+        }
+        bilanz_betrag.textContent=`${(this.gesamtbilanz.get("bilanz") / 100).toFixed(2).replace(".", ",")} €`;
+        bilanz_zeile.insertAdjacentElement("beforeend", bilanz_betrag);
+        gesamtbilanz.insertAdjacentElement("beforeend", bilanz_zeile);
+
+        return gesamtbilanz;
+
+
+    },
+
     gesamtbilanz_anzeigen(){
         document.querySelectorAll("#gesamtbilanz").forEach(function(gesamtbilanz){
             gesamtbilanz.remove();
         });
-        document.querySelector("body").insertAdjacentElement("beforeend", this.html_eintrag_generieren());
+        document.querySelector("body").insertAdjacentElement("beforeend", this.html_gesamtbilanz_generieren());
+
     },
 
      eintraege_anzeigen(){
@@ -256,6 +295,7 @@ eintraege_ausgeben (){
             this.eintraege_ausgeben();
             this.gesamtbilanz_erstellen();
             this.eintraege_anzeigen();
+            this.gesamtbilanz_anzeigen();
             //this.gesamtbilanz_ausgeben();
             } else {
                 this.fehler= [];
