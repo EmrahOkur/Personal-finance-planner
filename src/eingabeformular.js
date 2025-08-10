@@ -49,6 +49,13 @@ const eingabeformular={
 
     },
 
+    datum_aktualisieren(){
+        let datums_input=document.querySelector("#datum");
+        if(datums_input !== null){
+            datums_input.valueAsDate=new Date();
+        }
+    },
+
     absenden_event_hinzufuegen(eingabeformular){
         eingabeformular.querySelector("#eingabeformular").addEventListener("submit", e =>{
             e.preventDefault();
@@ -56,6 +63,20 @@ const eingabeformular={
             console.log(formulardaten)
             let formular_fehler= this.formulardaten_validieren(formulardaten);
             console.log(formular_fehler);
+
+
+            if(formular_fehler.length === 0){
+                haushaltsbuch.eintraege_hinzufuegen(formulardaten);
+
+
+                e.target.reset();
+                this.datum_aktualisieren();
+
+
+            }else{
+
+
+            }
         
         });
 
@@ -75,7 +96,7 @@ html_generieren(){
                  <input type="text" id="titel" form="eingabeformular" name="titel" placeholder="z.B. Einkaufen" size="10" title="Titel des Eintrags" >
                  <input type="radio" id="einnahme" name="typ" value="einnahme" form="eingabeformular" title="Typ des Eintrags">
                 <label for="einnahme" title="Typ des Eintrags">Einnahme</label>
-                <input type="radio" id="ausgabe" name="typ" value="ausgabe" form="eingabeformular" title="Typ des Eintrags" >
+                <input type="radio" id="ausgabe" name="typ" value="ausgabe" form="eingabeformular" title="Typ des Eintrags" checked >
                  <label for="ausgabe" title="Typ des Eintrags">Ausgabe</label>
             </div>
          </div>
@@ -97,5 +118,6 @@ html_generieren(){
 },
         anzeigen(){
             document.querySelector("#navigationsleiste").insertAdjacentElement("afterend", this.html_generieren());
+            this.datum_aktualisieren();
 }
 };
