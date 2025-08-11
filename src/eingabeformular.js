@@ -60,25 +60,15 @@ const eingabeformular={
         eingabeformular.querySelector("#eingabeformular").addEventListener("submit", e =>{
             e.preventDefault();
             let formulardaten = this.formulardaten_verarbeiten(this.formulardaten_holen(e));
-            console.log(formulardaten)
             let formular_fehler= this.formulardaten_validieren(formulardaten);
-            console.log(formular_fehler);
-
-
             if(formular_fehler.length === 0){
                 haushaltsbuch.eintraege_hinzufuegen(formulardaten);
                 this.fehlerbox_entfernen();
-
-
                 e.target.reset();
                 this.datum_aktualisieren();
-
-
             }else{
                 this.fehlerbox_entfernen();
                 this.fehlerbox_anzeigen(formular_fehler);
-
-
             }
         
         });

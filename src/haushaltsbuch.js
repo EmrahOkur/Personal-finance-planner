@@ -19,6 +19,27 @@ const haushaltsbuch ={
             this.gesamtbilanz_anzeigen();       
     },
 
+    eintrag_entfernen(timestamp){
+
+        let start_index;
+        for (let i = 0; i < this.eintraege.length; i++) {
+            if (this.eintraege[i].get("timestamp")===parseInt(timestamp)) {
+                start_index=i;
+                break;
+            } 
+        }
+            
+        
+
+        this.eintraege.splice(start_index, 1);
+        this.eintraege_anzeigen();
+        this.gesamtbilanz_erstellen();
+        this.gesamtbilanz_anzeigen();
+
+
+
+    },
+
 
     eintraege_sortieren(){
         this.eintraege.sort((eintrag_a, eintrag_b )=>{
@@ -119,7 +140,6 @@ eintraege_ausgeben (){
   html_eintrag_generieren(eintrag) {
     let listepunkt = document.createElement("li");
 
-    // Klasse setzen je nach Typ
     if (eintrag.get("typ") === "einnahme") {
         listepunkt.classList.add("einnahme");
     } else if (eintrag.get("typ") === "ausgabe") {
@@ -127,7 +147,6 @@ eintraege_ausgeben (){
     }
     listepunkt.dataset.timestamp = eintrag.get("timestamp");
 
-    // Datum
     let datum = document.createElement("span");
     datum.className = "datum";
     datum.textContent = eintrag.get("datum").toLocaleDateString("de-DE", {
@@ -136,17 +155,14 @@ eintraege_ausgeben (){
         day: "2-digit"
     });
 
-    // Titel
     let titel = document.createElement("span");
     titel.className = "titel";
     titel.textContent = eintrag.get("titel");
 
-    // Betrag
     let betrag = document.createElement("span");
     betrag.className = "betrag";
     betrag.textContent = `${(eintrag.get("betrag") / 100).toFixed(2).replace(".", ",")} €`;
 
-    // Entfernen-Button
     let button = document.createElement("button");
     button.className = "entfernen-button";
 
@@ -155,13 +171,22 @@ eintraege_ausgeben (){
 
     button.appendChild(icon);
 
-    // Alles korrekt ins <li> einfügen
     listepunkt.appendChild(datum);
     listepunkt.appendChild(titel);
     listepunkt.appendChild(betrag);
     listepunkt.appendChild(button);
 
+    this.eintrag_entfernen_event_hinzufuegen(listepunkt);
+
     return listepunkt;
+},
+
+eintrag_entfernen_event_hinzufuegen(listenpunkt){
+    listenpunkt.querySelector(".entfernen-button").addEventListener("click", e => {
+        let timestamp=e.target.parentElement.getAttribute("data-timestamp");
+        this.eintrag_entfernen(timestamp);
+    });
+
 },
 
 
