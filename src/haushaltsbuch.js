@@ -98,12 +98,7 @@ eintraege_ausgeben (){
         bilanz_titel.textContent="Bilanz:";
         bilanz_zeile.insertAdjacentElement("afterbegin", bilanz_titel);
         let bilanz_betrag=document.createElement("span");
-        if(this.gesamtbilanz.get("bilanz")>=0){
-            bilanz_betrag.setAttribute("class", "positiv");
-
-        } else if(this.gesamtbilanz.get("bilanz")<0){
-            bilanz_betrag.setAttribute("class", "negativ");
-        }
+        this.gesamtbilanz.get("bilanz")>=0 ? bilanz_betrag.setAttribute("class", "positiv") : bilanz_betrag.setAttribute("class", "negativ");
         bilanz_betrag.textContent=`${(this.gesamtbilanz.get("bilanz") / 100).toFixed(2).replace(".", ",")} €`;
         bilanz_zeile.insertAdjacentElement("beforeend", bilanz_betrag);
         gesamtbilanz.insertAdjacentElement("beforeend", bilanz_zeile);
@@ -131,12 +126,7 @@ eintraege_ausgeben (){
 
   html_eintrag_generieren(eintrag) {
     let listepunkt = document.createElement("li");
-
-    if (eintrag.get("typ") === "einnahme") {
-        listepunkt.classList.add("einnahme");
-    } else if (eintrag.get("typ") === "ausgabe") {
-        listepunkt.classList.add("ausgabe");
-    }
+    eintrag.get("typ") === "einnahme" ? listepunkt.classList.add("einnahme") : listepunkt.classList.add("ausgabe");
     listepunkt.dataset.timestamp = eintrag.get("timestamp");
 
     let datum = document.createElement("span");
