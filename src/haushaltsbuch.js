@@ -20,7 +20,6 @@ const haushaltsbuch ={
     },
 
     eintrag_entfernen(timestamp){
-
         let start_index;
         for (let i = 0; i < this.eintraege.length; i++) {
             if (this.eintraege[i].get("timestamp")===parseInt(timestamp)) {
@@ -43,14 +42,7 @@ const haushaltsbuch ={
 
     eintraege_sortieren(){
         this.eintraege.sort((eintrag_a, eintrag_b )=>{
-            if (eintrag_a.get("datum") > eintrag_b.get("datum")){
-                return -1;
-            } else if(eintrag_a.get("datum") < eintrag_b.get("datum")){
-                return 1
-            } else {
-                return 0
-            }
-
+            return eintrag_a.get("datum") > eintrag_b.get("datum") ? -1 : eintrag_a.get("datum") < eintrag_b.get("datum") ? 1 :0;
         });
     },
 
