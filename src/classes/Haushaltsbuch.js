@@ -17,9 +17,7 @@ class Haushaltsbuch {
                 formulardaten.typ, 
                 formulardaten.datum);
             this._eintraege.push(neuer_eintrag);
-            console.log(this);
-            this._eintraege_sortieren();
-            this._eintraege_anzeigen();
+            this._montaslistensammlung.eintrag_hinzufuegen(eintrag);
             this._gesamtbilanz.aktualisieren(this._eintraege);      
     }
 
@@ -35,7 +33,6 @@ class Haushaltsbuch {
         
 
         this._eintraege.splice(start_index, 1);
-        this._eintraege_anzeigen();
         this._gesamtbilanz.aktualisieren(this._eintraege);   
 
 
@@ -43,11 +40,6 @@ class Haushaltsbuch {
     }
 
 
-    _eintraege_sortieren(){
-        this._eintraege.sort((eintrag_a, eintrag_b )=>{
-            return eintrag_a.datum() > eintrag_b.datum() ? -1 : eintrag_a.datum() < eintrag_b.datum() ? 1 :0;
-        });
-    }
 
 eintraege_ausgeben (){
    console.clear();
@@ -65,15 +57,13 @@ eintraege_ausgeben (){
     }
 
 
-     _eintraege_anzeigen(){
-       document.querySelectorAll(".monatsliste ul").forEach(eintragsliste=>eintragsliste.remove());
+    
 
-        let eintragsliste=document.createElement("ul");
-        this._eintraege.forEach(eintrag=>
-            eintragsliste.insertAdjacentElement("beforeend", eintrag.html()));
-        document.querySelector(".monatsliste").insertAdjacentElement("afterbegin", eintragsliste);
-    }
+    anzeigen(){
+        this._montaslistensammlung.anzeigen();
+        this._gesamtbilanz.anzeigen();
 
+}
  
 
 
