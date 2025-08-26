@@ -28,14 +28,25 @@ class Monatsliste {
 
   eintrag_hinzufuegen(eintrag){
     this._eintraege.push(eintrag);
+    this._aktualisieren();
 
   }
 
-  //  _eintraege_sortieren(){
-  //       this._eintraege.sort((eintrag_a, eintrag_b )=>{
-  //           return eintrag_a.datum() > eintrag_b.datum() ? -1 : eintrag_a.datum() < eintrag_b.datum() ? 1 :0;
-  //       });
-  //   }
+   _eintraege_sortieren(){
+        this._eintraege.sort((eintrag_a, eintrag_b )=>{
+          if (eintrag_a.datum() > eintrag_b.datum()) {
+            return -1;
+          }else if (eintrag_a.datum() < eintrag_b.datum()) {
+            return 1;
+          }else{
+            if (eintrag_a.timestamp() > eintrag_b.timestamp()) {
+              return -1;
+            }else{
+              return 1;
+            }
+          }
+        });
+    }
 
 
     /* <article class="monatsliste">
@@ -69,13 +80,14 @@ class Monatsliste {
 
     let monatsbilanz=document.createElement("span");
     monatsbilanz.setAttribute("class", "monatsbilanz");
-    if (this._bilanz =0){
+    if (this._bilanz >=0){
       monatsbilanz.setAttribute("class", "monatsbilanz positiv");
 
     }else{
       monatsbilanz.setAttribute("class", "monatsbilanz negativ");
 
     }
+    monatsbilanz.textContent=`${this._bilanz} €`;
     ueberschrift.insertAdjacentElement("beforeend", monatsbilanz);
 
     monatsliste.insertAdjacentElement("afterbegin", ueberschrift);
@@ -88,6 +100,11 @@ class Monatsliste {
         return monatsliste;
 
 
+  }
+
+  _aktualisieren(){
+    this._eintraege_sortieren();
+    this._html=this._html_generieren();
   }
 
 }
